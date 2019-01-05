@@ -1,12 +1,26 @@
-# fastlane notarize plugin
+# fastlane notarize plugin [![fastlane Plugin Badge](https://rawcdn.githack.com/fastlane/fastlane/master/fastlane/assets/plugin-badge.svg)](https://rubygems.org/gems/fastlane-plugin-notarize)
 
-[![fastlane Plugin Badge](https://rawcdn.githack.com/fastlane/fastlane/master/fastlane/assets/plugin-badge.svg)](https://rubygems.org/gems/fastlane-plugin-notarize)
+[fastlane](https://github.com/fastlane/fastlane) plugin to [notarize](https://developer.apple.com/documentation/security/notarizing_your_app_before_distribution) a macOS app.
 
-[fastlane](https://github.com/fastlane/fastlane) plugin to notarize a macOS package. To get started, add it to your project:
+Notarize plugin provides a `notarize` action to upload an app to Apple's notarization service, querying the result periodically until it's complete—which currently takes around 2 minutes. In case of success, it staples the app with the notarization ticket. In case of failure, it prints the log file listing all the issues.
+
+## Getting started
+
+To get started, add it to your project:
 
 ```bash
 fastlane add_plugin notarize
 ```
+
+Update your `Fastfile` to use the `notarize` action:
+```ruby
+notarize(
+    package: app_path, # Path to package to notarize, e.g. .app bundle or disk image
+    bundle_id: bundle_id # Not required for .app bundles, bundle identifier to uniquely identify the package.
+)
+```
+
+This action should prompt you for an Apple ID and password, using fastlane's built-in credentials manager. To use the action in a CI environment like Travis CI, CircleCI or Bitrise, you can set `FASTLANE_USER` and `FASTLANE_PASSWORD` environment variables. (Make sure to use secret environment variables, specifically for the password.)
 
 ## Example
 

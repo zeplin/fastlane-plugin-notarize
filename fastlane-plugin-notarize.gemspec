@@ -10,7 +10,7 @@ Gem::Specification.new do |spec|
   spec.author        = 'Zeplin, Inc.'
   spec.email         = 'support@zeplin.io'
 
-  spec.summary       = 'fastlane plugin to notarize a macOS package'
+  spec.summary       = 'fastlane plugin to notarize a macOS app'
   spec.homepage      = "https://github.com/zeplin/fastlane-plugin-notarize"
   spec.license       = "MIT"
 

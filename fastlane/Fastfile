@@ -1,3 +1,6 @@
 lane :test do
-  notarize
+  # TODO: Add .app bundle fixture to test.
+  app_path = ''
+
+  notarize(package: app_path)
 end

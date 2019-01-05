@@ -92,7 +92,7 @@ module Fastlane
       end
 
       def self.description
-        'Notarizes a macOS package'
+        'Notarizes a macOS app'
       end
 
       def self.authors
