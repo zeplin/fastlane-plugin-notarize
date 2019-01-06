@@ -1,6 +1,6 @@
 # fastlane notarize plugin [![fastlane Plugin Badge](https://rawcdn.githack.com/fastlane/fastlane/master/fastlane/assets/plugin-badge.svg)](https://rubygems.org/gems/fastlane-plugin-notarize)
 
-[fastlane](https://github.com/fastlane/fastlane) plugin to [notarize](https://developer.apple.com/documentation/security/notarizing_your_app_before_distribution) a macOS app.
+[fastlane](https://github.com/fastlane/fastlane) plugin to [notarize](https://developer.apple.com/documentation/security/notarizing_your_app_before_distribution) a macOS app. 🛂
 
 Notarize plugin provides a `notarize` action to upload an app to Apple's notarization service, querying the result periodically until it's complete—which currently takes around 2 minutes. In case of success, it staples the app with the notarization ticket. In case of failure, it prints the log file listing all the issues.
 
