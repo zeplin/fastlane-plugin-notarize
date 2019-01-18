@@ -19,7 +19,7 @@ module Fastlane
           unless bundle_id
             info_plist_path = File.join(package_path, 'Contents', 'Info.plist')
             bundle_id = Actions.sh(
-              "/usr/libexec/PlistBuddy -c \"Print :CFBundleIdentifier\" #{info_plist_path}",
+              "/usr/libexec/PlistBuddy -c \"Print :CFBundleIdentifier\" \"#{info_plist_path}\"",
               log: false
             ).strip
           end
