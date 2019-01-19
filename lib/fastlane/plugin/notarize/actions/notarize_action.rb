@@ -31,11 +31,11 @@ module Fastlane
 
         UI.message('Uploading package to notarization service, might take a while')
 
-        upload_command = "xcrun altool --notarize-app -t osx -f \"#{compressed_package_path || package_path}\" --primary-bundle-id #{bundle_id} -u #{apple_id_account.user} -p @env:FL_NOTARIZE_PASSWORD --output-format xml"
-        upload_command << " --asc-provider \"#{params[:asc_provider]}\"" unless params[:asc_provider]
-        
+        notarization_upload_command = "xcrun altool --notarize-app -t osx -f \"#{compressed_package_path || package_path}\" --primary-bundle-id #{bundle_id} -u #{apple_id_account.user} -p @env:FL_NOTARIZE_PASSWORD --output-format xml"
+        notarization_upload_command << " --asc-provider \"#{params[:asc_provider]}\"" unless params[:asc_provider]
+
         notarization_upload_response = Actions.sh(
-          upload_command, 
+          notarization_upload_command,
           log: false
         )
 
@@ -107,7 +107,7 @@ module Fastlane
         username ||= CredentialsManager::AppfileConfig.try_fetch_value(:apple_id)
 
         asc_provider = CredentialsManager::AppfileConfig.try_fetch_value(:itc_team_id)
-        
+
         [
           FastlaneCore::ConfigItem.new(key: :package,
                                        env_name: 'FL_NOTARIZE_PACKAGE',
@@ -128,7 +128,7 @@ module Fastlane
                                        default_value_dynamic: true),
           FastlaneCore::ConfigItem.new(key: :asc_provider,
                                        env_name: 'FL_NOTARIZE_ASC_PROVIDER',
-                                       description: 'The provider of your iTunes Connect team if you\'re in multiple teams (FL_NOTARIZE_ASC_PROVIDER)',
+                                       description: 'Provider short name for accounts associated with multiple providers',
                                        optional: true,
                                        default_value: asc_provider)
         ]
