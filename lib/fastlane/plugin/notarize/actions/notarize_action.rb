@@ -32,7 +32,7 @@ module Fastlane
         UI.message('Uploading package to notarization service, might take a while')
 
         upload_command = "xcrun altool --notarize-app -t osx -f \"#{compressed_package_path || package_path}\" --primary-bundle-id #{bundle_id} -u #{apple_id_account.user} -p @env:FL_NOTARIZE_PASSWORD --output-format xml"
-        upload_command << " --asc-provider \"#{params[:asc_provider]}\"" unless params[:asc_provider].nil?
+        upload_command << " --asc-provider \"#{params[:asc_provider]}\"" unless params[:asc_provider]
         
         notarization_upload_response = Actions.sh(
           upload_command, 
@@ -106,8 +106,7 @@ module Fastlane
         username = CredentialsManager::AppfileConfig.try_fetch_value(:apple_dev_portal_id)
         username ||= CredentialsManager::AppfileConfig.try_fetch_value(:apple_id)
 
-        asc_provider = CredentialsManager::AppfileConfig.try_fetch_value(:asc_provider_id)
-        asc_provider ||= CredentialsManager::AppfileConfig.try_fetch_value(:itc_team_id)
+        asc_provider = CredentialsManager::AppfileConfig.try_fetch_value(:itc_team_id)
         
         [
           FastlaneCore::ConfigItem.new(key: :package,
