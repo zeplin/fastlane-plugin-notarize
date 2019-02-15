@@ -54,7 +54,13 @@ module Fastlane
           if notarization_info.empty?
             UI.message('Waiting to query request status')
           else
-            UI.message('Request in progress, waiting to query again')
+            UI.message('Request in progress, trying early staple')
+            if self.attempt_staple(package_path)
+              UI.message('Stapled early!  No longer waiting for notarization info.')
+              notarization_info["Status"] = "success"
+              break
+            end
+            UI.message('Early staple failed, waiting to query again')
           end
 
           sleep(30)
@@ -95,6 +101,16 @@ module Fastlane
         end
       ensure
         ENV.delete('FL_NOTARIZE_PASSWORD')
+      end
+
+      def self.attempt_staple(package_path)
+        Actions.sh(
+          "xcrun stapler staple \"#{package_path}\"",
+          log: false
+        )
+        true
+      rescue
+        false
       end
 
       def self.description
