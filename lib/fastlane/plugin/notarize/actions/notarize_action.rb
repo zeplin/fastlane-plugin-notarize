@@ -6,6 +6,7 @@ module Fastlane
       def self.run(params)
         package_path = params[:package]
         bundle_id = params[:bundle_id]
+        try_early_stapling = params[:try_early_stapling]
 
         # Compress and read bundle identifier only for .app bundle.
         compressed_package_path = nil
@@ -53,7 +54,7 @@ module Fastlane
         while notarization_info.empty? || (notarization_info['Status'] == 'in progress')
           if notarization_info.empty?
             UI.message('Waiting to query request status')
-          else
+          elsif try_early_stapling  
             UI.message('Request in progress, trying early staple')
             if self.attempt_staple(package_path)
               UI.message('Stapled early!  No longer waiting for notarization info.')
@@ -135,6 +136,12 @@ module Fastlane
                                        verify_block: proc do |value|
                                          UI.user_error!("Could not find package at '#{value}'") unless File.exist?(value)
                                        end),
+          FastlaneCore::ConfigItem.new(key: :try_early_stapling,
+                                       env_name: 'FL_NOTARIZE_TRY_EARLY_STAPLING',
+                                       description: 'Whether to try stapling while the request is "in-progress"',
+                                       optional: true,
+                                       default_value: false,
+                                       type: Boolean),
           FastlaneCore::ConfigItem.new(key: :bundle_id,
                                        env_name: 'FL_NOTARIZE_BUNDLE_ID',
                                        description: 'Bundle identifier to uniquely identify the package',
