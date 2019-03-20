@@ -56,12 +56,13 @@ module Fastlane
             UI.message('Waiting to query request status')
           elsif try_early_stapling  
             UI.message('Request in progress, trying early staple')
-            if self.attempt_staple(package_path)
-              UI.message('Stapled early!  No longer waiting for notarization info.')
-              notarization_info["Status"] = "success"
-              break
+            begin
+              self.attempt_staple(package_path)
+              UI.message('Successfully notarized and early stapled package.')
+              return
+            rescue
+              UI.message('Early staple failed, waiting to query again')
             end
-            UI.message('Early staple failed, waiting to query again')
           end
 
           sleep(30)
@@ -89,10 +90,7 @@ module Fastlane
         when 'success'
           UI.message('Stapling package')
 
-          Actions.sh(
-            "xcrun stapler staple \"#{package_path}\"",
-            log: false
-          )
+          self.attempt_staple(package_path)
 
           UI.success("Successfully notarized and stapled package#{log_suffix}")
         when 'invalid'
@@ -109,9 +107,6 @@ module Fastlane
           "xcrun stapler staple \"#{package_path}\"",
           log: false
         )
-        true
-      rescue
-        false
       end
 
       def self.description
