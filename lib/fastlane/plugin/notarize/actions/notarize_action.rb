@@ -54,11 +54,13 @@ module Fastlane
         while notarization_info.empty? || (notarization_info['Status'] == 'in progress')
           if notarization_info.empty?
             UI.message('Waiting to query request status')
-          elsif try_early_stapling  
+          elsif try_early_stapling
             UI.message('Request in progress, trying early staple')
+
             begin
-              self.attempt_staple(package_path)
+              self.staple(package_path)
               UI.message('Successfully notarized and early stapled package.')
+
               return
             rescue
               UI.message('Early staple failed, waiting to query again')
@@ -90,7 +92,7 @@ module Fastlane
         when 'success'
           UI.message('Stapling package')
 
-          self.attempt_staple(package_path)
+          self.staple(package_path)
 
           UI.success("Successfully notarized and stapled package#{log_suffix}")
         when 'invalid'
@@ -102,7 +104,7 @@ module Fastlane
         ENV.delete('FL_NOTARIZE_PASSWORD')
       end
 
-      def self.attempt_staple(package_path)
+      def self.staple(package_path)
         Actions.sh(
           "xcrun stapler staple \"#{package_path}\"",
           log: false
@@ -133,7 +135,7 @@ module Fastlane
                                        end),
           FastlaneCore::ConfigItem.new(key: :try_early_stapling,
                                        env_name: 'FL_NOTARIZE_TRY_EARLY_STAPLING',
-                                       description: 'Whether to try stapling while the request is "in-progress"',
+                                       description: 'Whether to try early stapling while the notarization request is in progress',
                                        optional: true,
                                        default_value: false,
                                        type: Boolean),
