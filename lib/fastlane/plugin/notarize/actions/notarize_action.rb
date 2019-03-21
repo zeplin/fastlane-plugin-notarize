@@ -26,7 +26,7 @@ module Fastlane
           end
         end
 
-        UI.user_error!('Could not read bundle identifier, provide as a parameter.') unless bundle_id
+        UI.user_error!('Could not read bundle identifier, provide as a parameter') unless bundle_id
 
         apple_id_account = CredentialsManager::AccountManager.new(user: params[:username])
 
