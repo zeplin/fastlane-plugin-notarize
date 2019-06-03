@@ -31,7 +31,8 @@ module Fastlane
         apple_id_account = CredentialsManager::AccountManager.new(user: params[:username])
 
         # Add password as a temporary environment variable for altool.
-        ENV['FL_NOTARIZE_PASSWORD'] = apple_id_account.password
+        # Use app specific password if specified.
+        ENV['FL_NOTARIZE_PASSWORD'] = ENV['FASTLANE_APPLE_APPLICATION_SPECIFIC_PASSWORD'] || apple_id_account.password
 
         UI.message('Uploading package to notarization service, might take a while')
 
