@@ -36,7 +36,7 @@ module Fastlane
         UI.message('Uploading package to notarization service, might take a while')
 
         notarization_upload_command = "xcrun altool --notarize-app -t osx -f \"#{compressed_package_path || package_path}\" --primary-bundle-id #{bundle_id} -u #{apple_id_account.user} -p @env:FL_NOTARIZE_PASSWORD --output-format xml"
-        notarization_upload_command << " --asc-provider \"#{params[:asc_provider]}\"" unless params[:asc_provider]
+        notarization_upload_command << " --asc-provider \"#{params[:asc_provider]}\"" if params[:asc_provider]
 
         notarization_upload_response = Actions.sh(
           notarization_upload_command,
