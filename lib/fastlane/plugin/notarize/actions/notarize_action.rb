@@ -7,6 +7,7 @@ module Fastlane
         package_path = params[:package]
         bundle_id = params[:bundle_id]
         try_early_stapling = params[:try_early_stapling]
+        disable_detailed_log = params[:disable_detailed_log]
 
         # Compress and read bundle identifier only for .app bundle.
         compressed_package_path = nil
@@ -83,7 +84,7 @@ module Fastlane
 
         log_url = notarization_info['LogFileURL']
         log_suffix = ''
-        if log_url
+        if log_url && !disable_detailed_log
           log_response = Net::HTTP.get(URI(log_url))
           log_json_object = JSON.parse(log_response)
           log_suffix = ", with log:\n#{JSON.pretty_generate(log_json_object)}"
@@ -154,7 +155,13 @@ module Fastlane
                                        env_name: 'FL_NOTARIZE_ASC_PROVIDER',
                                        description: 'Provider short name for accounts associated with multiple providers',
                                        optional: true,
-                                       default_value: asc_provider)
+                                       default_value: asc_provider),
+          FastlaneCore::ConfigItem.new(key: :disable_detailed_log,
+                                       env_name: 'FL_NOTARIZE_DISABLE_DETAILED_LOG',
+                                       description: 'Disables detailed log of the response from the notarization service',
+                                       optional: true,
+                                       default_value: false,
+                                       type: Boolean)
         ]
       end
 
