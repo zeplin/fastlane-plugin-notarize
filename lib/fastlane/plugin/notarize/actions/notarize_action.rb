@@ -158,7 +158,7 @@ module Fastlane
                                        optional: true,
                                        default_value: asc_provider),
           FastlaneCore::ConfigItem.new(key: :print_log,
-                                       env_name: 'FL_NOTARIZE_DISABLE_DETAILED_LOG',
+                                       env_name: 'FL_NOTARIZE_PRINT_LOG',
                                        description: 'Disables detailed log of the response from the notarization service',
                                        optional: true,
                                        default_value: true,
