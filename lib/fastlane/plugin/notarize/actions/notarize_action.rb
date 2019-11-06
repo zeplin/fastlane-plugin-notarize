@@ -7,6 +7,7 @@ module Fastlane
         package_path = params[:package]
         bundle_id = params[:bundle_id]
         try_early_stapling = params[:try_early_stapling]
+        verbose = params[:verbose]
 
         # Compress and read bundle identifier only for .app bundle.
         compressed_package_path = nil
@@ -41,7 +42,7 @@ module Fastlane
 
         notarization_upload_response = Actions.sh(
           notarization_upload_command,
-          log: false
+          log: verbose
         )
 
         FileUtils.rm_rf(compressed_package_path) if compressed_package_path
@@ -74,7 +75,7 @@ module Fastlane
 
           notarization_info_response = Actions.sh(
             "xcrun altool --notarization-info #{notarization_request_id} -u #{apple_id_account.user} -p @env:FL_NOTARIZE_PASSWORD --output-format xml",
-            log: false
+            log: verbose
           )
 
           notarization_info_plist = Plist.parse_xml(notarization_info_response)
@@ -154,7 +155,13 @@ module Fastlane
                                        env_name: 'FL_NOTARIZE_ASC_PROVIDER',
                                        description: 'Provider short name for accounts associated with multiple providers',
                                        optional: true,
-                                       default_value: asc_provider)
+                                       default_value: asc_provider),
+          FastlaneCore::ConfigItem.new(key: :verbose,
+                                       env_name: 'FL_NOTARIZE_VERBOSE',
+                                       description: 'Enable logging of notarization responses',
+                                       optional: true,
+                                       default_value: false,
+                                       type: Boolean)
         ]
       end
 
