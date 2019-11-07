@@ -162,7 +162,7 @@ module Fastlane
                                        description: 'Disables detailed log of the response from the notarization service',
                                        optional: true,
                                        default_value: true,
-                                       type: Boolean)
+                                       type: Boolean),
           FastlaneCore::ConfigItem.new(key: :verbose,
                                        env_name: 'FL_NOTARIZE_VERBOSE',
                                        description: 'Enable logging of notarization responses',
