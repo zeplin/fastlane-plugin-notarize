@@ -159,13 +159,13 @@ module Fastlane
                                        default_value: asc_provider),
           FastlaneCore::ConfigItem.new(key: :print_log,
                                        env_name: 'FL_NOTARIZE_PRINT_LOG',
-                                       description: 'Disables detailed log of the response from the notarization service',
+                                       description: 'Whether to print notarization log file, listing issues on failure and warnings on success',
                                        optional: true,
                                        default_value: true,
                                        type: Boolean)
           FastlaneCore::ConfigItem.new(key: :verbose,
                                        env_name: 'FL_NOTARIZE_VERBOSE',
-                                       description: 'Enable logging of notarization responses',
+                                       description: 'Whether to log requests',
                                        optional: true,
                                        default_value: false,
                                        type: Boolean)
