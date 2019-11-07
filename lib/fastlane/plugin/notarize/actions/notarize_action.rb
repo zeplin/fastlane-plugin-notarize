@@ -7,6 +7,7 @@ module Fastlane
         package_path = params[:package]
         bundle_id = params[:bundle_id]
         try_early_stapling = params[:try_early_stapling]
+        print_log = params[:print_log]
         verbose = params[:verbose]
 
         # Compress and read bundle identifier only for .app bundle.
@@ -84,7 +85,7 @@ module Fastlane
 
         log_url = notarization_info['LogFileURL']
         log_suffix = ''
-        if log_url
+        if log_url && print_log
           log_response = Net::HTTP.get(URI(log_url))
           log_json_object = JSON.parse(log_response)
           log_suffix = ", with log:\n#{JSON.pretty_generate(log_json_object)}"
@@ -156,6 +157,12 @@ module Fastlane
                                        description: 'Provider short name for accounts associated with multiple providers',
                                        optional: true,
                                        default_value: asc_provider),
+          FastlaneCore::ConfigItem.new(key: :print_log,
+                                       env_name: 'FL_NOTARIZE_PRINT_LOG',
+                                       description: 'Disables detailed log of the response from the notarization service',
+                                       optional: true,
+                                       default_value: true,
+                                       type: Boolean)
           FastlaneCore::ConfigItem.new(key: :verbose,
                                        env_name: 'FL_NOTARIZE_VERBOSE',
                                        description: 'Enable logging of notarization responses',
