@@ -84,6 +84,7 @@ module Fastlane
         end
 
         log_url = notarization_info['LogFileURL']
+        ENV['NOTARIZE_LOG_FILE_URL'] = log_url
         log_suffix = ''
         if log_url && print_log
           log_response = Net::HTTP.get(URI(log_url))
