@@ -22,7 +22,7 @@ notarize(
 
 This action should prompt you for an Apple ID and password, using fastlane's built-in credentials manager. To use the action in a CI environment like Bitrise, CircleCI or Travis CI, you can set `FASTLANE_USER` and `FASTLANE_PASSWORD` environment variables. (Make sure to use secret environment variables, specifically for the password.)
 
-The tool also stores the `log file url` in an environment variable called `NOTARIZE_LOG_FILE_URL` for further use after the notarization. The log file contains information about errors and/or warnings that arose during notarization.
+The tool also stores the `log file url` in an environment variable called `FL_NOTARIZE_LOG_FILE_URL` for further use after the notarization. The log file contains information about errors and/or warnings that arose during notarization.
 
 ## Example
 
