@@ -16,14 +16,14 @@ module Fastlane
           compressed_package_path = "#{package_path}.zip"
           Actions.sh(
             "ditto -c -k --rsrc --keepParent \"#{package_path}\" \"#{compressed_package_path}\"",
-            log: false
+            log: verbose
           )
 
           unless bundle_id
             info_plist_path = File.join(package_path, 'Contents', 'Info.plist')
             bundle_id = Actions.sh(
               "/usr/libexec/PlistBuddy -c \"Print :CFBundleIdentifier\" \"#{info_plist_path}\"",
-              log: false
+              log: verbose
             ).strip
           end
         end
@@ -108,10 +108,10 @@ module Fastlane
         ENV.delete('FL_NOTARIZE_PASSWORD')
       end
 
-      def self.staple(package_path)
+      def self.staple(package_path, verbose)
         Actions.sh(
           "xcrun stapler staple \"#{package_path}\"",
-          log: false
+          log: verbose
         )
       end
 
