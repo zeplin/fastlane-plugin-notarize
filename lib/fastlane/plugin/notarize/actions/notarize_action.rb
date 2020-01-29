@@ -61,7 +61,7 @@ module Fastlane
             UI.message('Request in progress, trying early staple')
 
             begin
-              self.staple(package_path)
+              self.staple(package_path, verbose)
               UI.message('Successfully notarized and early stapled package.')
 
               return
@@ -96,7 +96,7 @@ module Fastlane
         when 'success'
           UI.message('Stapling package')
 
-          self.staple(package_path)
+          self.staple(package_path, verbose)
 
           UI.success("Successfully notarized and stapled package#{log_suffix}")
         when 'invalid'
