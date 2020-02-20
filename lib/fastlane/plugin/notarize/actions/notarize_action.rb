@@ -176,6 +176,18 @@ module Fastlane
       def self.is_supported?(platform)
         platform == :mac
       end
+
+      def self.category
+        :deprecated
+      end
+
+      def self.deprecated_notes
+        [
+          "Notarize action is now officially a part of fastlane. 🦄",
+          "The plugin will be no longer be supported and further improvements and fixes will be made on the official action.",
+          "Please migrate over to the new action by simply removing the plugin from your Pluginfile and updating Fastlane to the latest version."
+        ].join("\n")
+      end
     end
   end
 end
