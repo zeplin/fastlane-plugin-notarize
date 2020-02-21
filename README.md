@@ -1,3 +1,7 @@
+# Deprecated
+
+Notarize action is now officially a part of fastlane. 🦄 The plugin will be no longer be supported and further improvements and fixes will be made on the official action. Please migrate over to the new action by simply removing the plugin from your Pluginfile and updating Fastlane to the latest version.
+
 # fastlane notarize plugin [![fastlane Plugin Badge](https://rawcdn.githack.com/fastlane/fastlane/master/fastlane/assets/plugin-badge.svg)](https://rubygems.org/gems/fastlane-plugin-notarize)
 
 [fastlane](https://github.com/fastlane/fastlane) plugin to [notarize](https://developer.apple.com/documentation/security/notarizing_your_app_before_distribution) a macOS app. 🛂
